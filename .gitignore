@@ -1,6 +1,6 @@
 # Ignore envs
-env/
-venv/
+.env/
+.venv/
 primary/env/
 worker-1/env/
 
