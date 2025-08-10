@@ -1,0 +1,20 @@
+# Ignore envs
+env/
+venv/
+primary/env/
+worker-1/env/
+
+primary/node_modules
+worker-1/node_modules
+
+# Ignore logs
+*.log
+primary/logs/
+worker-1/logs/
+
+# Ignore compiled files or build outputs
+build/
+dist/
+*.egg-info/
+
+Readme.md
