@@ -3,11 +3,11 @@ const router = express.Router();
 const {handleGetProblemRoute,
     handleSubmitProblemRoute,
     handleRunProblemRoute} = require('../controllers/problem.controller.js');
+const verifyJwt = require('../middleware/auth.middleware.js');
 
 
-
-router.get('/problem/:id',handleGetProblemRoute);
-router.get('/problem/:id/run',handleRunProblemRoute);
-router.get('/problem/:id/submit',handleSubmitProblemRoute);
+router.get('/:id',verifyJwt,handleGetProblemRoute);
+router.get('/:id/run',verifyJwt,handleRunProblemRoute);
+router.get('/:id/submit',verifyJwt,handleSubmitProblemRoute);
 
 module.exports = router;
