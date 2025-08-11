@@ -1,11 +1,17 @@
-async function handleUserRegisterRoute(){
+const cookie = require('cookie-parser');
+const User = require('../models/user.model.js');
+
+async function handleUserRegisterRoute(request,response){
 
 }
 
-async function handleUserSignInRoute(){
+async function handleUserLoginRoute(request,response){
 
 }
 
-async function handleUserLogoutRoute(){
+async function handleUserLogoutRoute(request,response){
 
 }
+
+
+module.exports = {handleUserLoginRoute,handleUserLogoutRoute,handleUserRegisterRoute};
