@@ -1,5 +1,5 @@
 {
-  "name": "src",
+  "name": "primary",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "amqplib": "^0.10.8",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
