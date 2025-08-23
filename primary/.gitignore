@@ -1,2 +1,30 @@
-node_modules
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables (sensitive)
 .env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+build/
+
+# OS files
+.DS_Store
+
+# Optional IDE configs (uncomment if you want to share them)
+# .vscode/
+
+# ESLint cache (optional, but good to ignore)
+.eslintcache
+
+# Prettier cache (if used)
+.prettiercache

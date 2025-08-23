@@ -1,20 +1,33 @@
-# Ignore envs
-.env/
-.venv/
-primary/env/
-worker-1/env/
+# Node modules
+node_modules/
 
-primary/node_modules
-worker/node_modules
-
-# Ignore logs
+# Logs
+logs
 *.log
-primary/logs/
-worker-1/logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Ignore compiled files or build outputs
-build/
+# Environment variables (sensitive)
+.env
+.env.local
+.env.*.local
+
+# Build output
 dist/
-*.egg-info/
+build/
+
+# OS files
+.DS_Store
+
+# Optional IDE configs (uncomment if you want to share them)
+# .vscode/
+
+# ESLint cache (optional, but good to ignore)
+.eslintcache
+
+# Prettier cache (if used)
+.prettiercache
 
 Readme.md
+imp.txt
