@@ -5,7 +5,7 @@ primary/env/
 worker-1/env/
 
 primary/node_modules
-worker-1/node_modules
+worker/node_modules
 
 # Ignore logs
 *.log
