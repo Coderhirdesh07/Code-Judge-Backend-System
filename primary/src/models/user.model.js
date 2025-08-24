@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema(
   {
@@ -27,15 +27,15 @@ const userSchema = new mongoose.Schema(
     },
     roleType: {
       type: String,
-      enum: ["Admin", "Contributer", "Student"],
+      enum: ['Admin', 'Contributer', 'Problem-submitter'],
     },
   },
   { timeStamps: true }
 );
 
 // to save password hashing is done before save only is password is modified
-userSchema.pre("save", async function (next) {
-  if (this.isModified("password")) {
+userSchema.pre('save', async function (next) {
+  if (this.isModified('password')) {
     return next();
   }
   try {
@@ -57,7 +57,7 @@ userSchema.methods.generateJwtToken = function () {
       role: this.roleType,
     },
     process.env.SECRET_KEY,
-    { expiresIn: "1d" }
+    { expiresIn: '1d' }
   );
 };
 
@@ -66,6 +66,6 @@ userSchema.methods.comparePassword = async function (userPassword) {
   return await bcrypt.comparePassword(userPassword, this.password);
 };
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

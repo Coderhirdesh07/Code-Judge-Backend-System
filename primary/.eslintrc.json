@@ -5,7 +5,7 @@
     "node": true
   },
   "extends": ["eslint:recommended", "plugin:prettier/recommended"],
-  "plugin": ["prettier"],
+  "plugins": ["prettier"],
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "script"
@@ -13,7 +13,7 @@
 
   "rules": {
     "semi": ["error", "always"],
-    "quotes": ["error", "double"],
+    "quotes": ["error", "single"],
     "no-console": "warn",
     "indent": ["error", 3],
     "no-unused-vars": ["error", { "args": "none" }],
