@@ -25,28 +25,49 @@ async function handleUserRegisterRoute(request, response) {
     .json({ message: 'User Created Succuesfully' });
 }
 
+
+
 async function handleUserLoginRoute(request, response) {
   const { email, password } = request.body;
   if (!email || !password) {
     return response.status(400).json({ message: 'Email or password missing' });
   }
+
   const redisClient = redisConnection();
+  const isEmailValid = redisClient.HGET('email');
+  if(isEmailValid!=null){
+    const isPasswordCorrect = bcrypt.compare(password,isEmailValid.password);  
+    if(isPasswordCorrect){
+      return response.status(200).json({message:'User Login Success'});
+    }
+    else return response.status(400).json({message:'Password or Email is incorrect'});
+  }
+  else{
+    const isMatch = await User.compare(this.password, password);
+    if (!isMatch)
+      return response
+        .status(400)
+        .json({ message: 'Incorrect password or email' });
 
-  const isMatch = await User.compare(this.password, password);
-  if (!isMatch)
-    return response
-      .status(400)
-      .json({ message: 'Incorrect password or email' });
-
-  return response.status(200).json({ message: 'User Login Successfull' });
+    else {
+      redisClient.HSET(email,{password:isMatch});
+      return response.status(200).json({ message: 'User Login Successfull' });
+    }
+  }
 }
 
 async function handleUserLogoutRoute(request, response) {
+  const {email,password} = request.body;
   const redisClient = redisConnection();
+  const isLogin = redisClient.HGET(email);
+  if(isLogin==null) return response.status(400).json({message:'User is not login '});
+  else{
+    redisClient.HDEL(email);
   return response
     .clearCookie('token')
     .status(200)
     .json({ message: 'User Logout Successfull' });
+  }
 }
 
 module.exports = {
@@ -54,3 +75,12 @@ module.exports = {
   handleUserLogoutRoute,
   handleUserRegisterRoute,
 };
+
+
+/**
+ *  redis - >
+ * key - email
+ * value-{
+ *  password,
+ * }
+ */
