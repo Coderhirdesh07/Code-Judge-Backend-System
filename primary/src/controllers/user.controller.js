@@ -5,13 +5,13 @@ const bcrypt = require('bcrypt');
 const {redisConnection} = require('../database/cache.utils.js');
 
 async function handleUserRegisterRoute(request, response) {
-  const { firstName, userName, email, roleType, password } = request.body();
+  const { firstName, userName, email, roleType, password } = request.body;
   if (!firstName || !userName || !email || !roleType || !password) {
     return response.status(400).json({
       message: 'FirstName or username or email or password or roleType missing',
     });
   }
-  const token = User.generateJwtToken();
+
 
   const user = await User.create({
     firstName: firstName,
@@ -19,8 +19,13 @@ async function handleUserRegisterRoute(request, response) {
     email: email,
     roleType: roleType,
   });
+
+
+  const token = jwt.sign({_id:user._id,email:user.email},process.env.JWT_SECRET,{expiresIn:'1d'});
+
+
   return response
-    .cookie('token')
+    .cookie('token',token,{httpOnly:true})
     .status(200)
     .json({ message: 'User Created Succuesfully' });
 }
@@ -57,16 +62,21 @@ async function handleUserLoginRoute(request, response) {
 }
 
 async function handleUserLogoutRoute(request, response) {
-  const {email,password} = request.body;
-  const redisClient = redisConnection();
-  const isLogin = redisClient.HGET(email);
-  if(isLogin==null) return response.status(400).json({message:'User is not login '});
-  else{
-    redisClient.HDEL(email);
-  return response
-    .clearCookie('token')
-    .status(200)
-    .json({ message: 'User Logout Successfull' });
+  try{
+    const email = request.user.email;
+    const redisClient = redisConnection();
+
+    const isLogin = await redisClient.HGET(email,'password');
+    if(!isLogin){
+      return response.status(400).json({message:'User is not logged in'});
+    }
+    await redisClient.HDEL(email,'password');
+    return response.status(200).json({message:'User logout sucess'});
+
+  }
+  catch(error){
+    console.log(error);
+    return response.status(500).json({message:'Internal server error'});
   }
 }
 

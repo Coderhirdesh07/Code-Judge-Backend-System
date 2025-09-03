@@ -1,12 +1,12 @@
 const express = require('express');
-const registerRoutes = require('../src/routes/auth.routes');
-const problemRoutes = require('../src/routes/problem.routes.js');
+const registerRoutes = require('./routes/auth.routes.js');
+const problemRoutes = require('./routes/problem.routes.js');
 const app = express();
-const cookie = require('cookie-parser');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 app.use(express.json());
-app.use(cookie());
+app.use(cookieParser());
 app.use(
   cors({
     origin: 'http://localhost:4000',
